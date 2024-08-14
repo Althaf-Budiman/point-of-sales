@@ -2,7 +2,7 @@ import { useState } from "react";
 import { deleteMenu, editMenu } from "../services/MenuService"
 import { useLocation } from 'react-router-dom'
 
-export default function ItemMenu({ id, name, price, handleHomeItemClick }) {
+export default function ItemMenu({ id, name, price, image, handleHomeItemClick }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const location = useLocation()
 
@@ -50,8 +50,14 @@ export default function ItemMenu({ id, name, price, handleHomeItemClick }) {
     return (
         <>
             <div onClick={handleItemClick} className="flex hover:opacity-75 bg-white transition hover:cursor-pointer flex-col text-center w-44 border">
-                <div className=" h-44 object-cover border">
-                    <img src="../src/assets/placeholder-food.jpg" />
+                <div className="border h-44 flex items-center justify-center">
+                    {
+                        image ? (
+                            <img src={`http://127.0.0.1:8000/images/${image}`} className="h-full w-full object-cover" />
+                        ) : (
+                            <img src="../src/assets/placeholder-food.jpg" className="h-full w-full object-cover" />
+                        )
+                    }
                 </div>
                 <p className="font-semibold text-2xl p-3">{name}</p>
             </div>
@@ -69,8 +75,10 @@ export default function ItemMenu({ id, name, price, handleHomeItemClick }) {
                                 </button>
                             </div>
 
-                            <img src="../src/assets/placeholder-food.jpg" className="w-full mx-auto my-2 max-w-56"></img>
-                            <input type="text" className="text-2xl font-semibold" value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
+                            <div className="h-44 flex items-center justify-center">
+                                <img src={`http://127.0.0.1:8000/images/${image}`} className="h-full w-full object-cover"></img>
+                            </div>
+                            <input type="text" className="mt-2 text-2xl font-semibold" value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
 
                             <div className="mt-2 flex text-2xl font-semibold text-green-600">
                                 <p className="me-2">Rp</p>

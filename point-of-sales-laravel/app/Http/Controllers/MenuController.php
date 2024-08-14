@@ -7,40 +7,61 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $menus = Menu::all();
         return response()->json([
             'menus' => $menus
         ]);
     }
 
-    public function store(Request $request) {
-        $validated = $request->validate([
+    public function store(Request $request)
+    {
+        $request->validate([
             'name' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'image' => 'image|nullable'
         ]);
 
-        Menu::create($validated);
+        $image_name = null;
+
+        // if request has image
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('images', $image_name);
+        }
+
+        Menu::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'image' => $image_name,
+        ]);
 
         return response()->json([
             'message' => "Success to create item!"
         ]);
     }
 
-    public function update(Request $request, Menu $menu) {
-        $validated = $request->validate([
+    public function update(Request $request, Menu $menu)
+    {
+        $request->validate([
             'name' => 'required',
-            'price' => 'required'
+            'price' => 'required',
         ]);
 
-        $menu->update($validated);
+        $menu->update([
+            'name' => $request->name,
+            'price' => $request->price,
+        ]);
 
         return response()->json([
             'message' => 'Success to update an item!'
         ]);
     }
 
-    public function destroy(Menu $menu) {
+    public function destroy(Menu $menu)
+    {
         $menu->delete();
 
         return response()->json([

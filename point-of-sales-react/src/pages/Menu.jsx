@@ -11,6 +11,7 @@ export default function Menu() {
     // form create
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
+    const [image, setImage] = useState('')
 
     useEffect(() => {
         const loadMenus = async () => {
@@ -27,7 +28,7 @@ export default function Menu() {
 
     const handleAddMenu = async () => {
         try {
-            await addMenu(name, price)
+            await addMenu(name, price, image)
             window.location.reload()
         } catch (error) {
             console.log(error)
@@ -62,6 +63,10 @@ export default function Menu() {
                                 </button>
                             </div>
 
+                            <div className="flex items-center">
+                                <label htmlFor="image">Pick Image: </label>
+                                <input type="file" id="image" className="my-2 ms-2" onChange={(e) => setImage(e.target.files[0])} />
+                            </div>
                             <input type="text" placeholder="Menu name.." className="text-2xl font-semibold focus:outline-none" value={name} onChange={(e) => setName(e.target.value)} />
                             <div className="mt-2 mb-4 flex text-2xl font-semibold text-green-600">
                                 <p className="me-2">Rp</p>
