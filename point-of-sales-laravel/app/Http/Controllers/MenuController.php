@@ -20,7 +20,7 @@ class MenuController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
-            'image' => 'image|nullable'
+            'image' => 'nullable|image'
         ]);
 
         $image_name = null;
@@ -48,11 +48,25 @@ class MenuController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
+            'image' => 'nullable|image'
         ]);
+
+        $image_name = $menu->image;
+
+        if($request->hasFile('image')) {
+            if ($image_name && file_exists(public_path('images/' . $image_name))) {
+                unlink(public_path('images/' . $image_name));
+            }
+
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move('images', $image_name);
+        }
 
         $menu->update([
             'name' => $request->name,
             'price' => $request->price,
+            'image' => $image_name,
         ]);
 
         return response()->json([

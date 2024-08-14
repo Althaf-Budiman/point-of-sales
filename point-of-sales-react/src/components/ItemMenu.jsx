@@ -9,10 +9,11 @@ export default function ItemMenu({ id, name, price, image, handleHomeItemClick }
     // form create
     const [nameValue, setNameValue] = useState(name)
     const [priceValue, setPriceValue] = useState(price)
+    const [imageValue, setImageValue] = useState('')
 
     const handleEditMenu = async () => {
         try {
-            await editMenu(id, nameValue, priceValue)
+            await editMenu(id, nameValue, priceValue, imageValue)
             window.location.reload()
         } catch (error) {
             console.log(error)
@@ -31,6 +32,7 @@ export default function ItemMenu({ id, name, price, image, handleHomeItemClick }
     const closeModal = () => {
         setNameValue(name);
         setPriceValue(price);
+        setImageValue(image)
         setIsModalOpen(false);
     }
 
@@ -76,7 +78,18 @@ export default function ItemMenu({ id, name, price, image, handleHomeItemClick }
                             </div>
 
                             <div className="h-44 flex items-center justify-center">
-                                <img src={`http://127.0.0.1:8000/images/${image}`} className="h-full w-full object-cover"></img>
+                                {
+                                    image ? (
+                                        <img src={`http://127.0.0.1:8000/images/${image}`} className="h-full w-full object-cover" />
+                                    ) : (
+                                        <img src="../src/assets/placeholder-food.jpg" className="h-full w-full object-cover" />
+                                    )
+                                }
+                            </div>
+
+                            <div className="flex items-center">
+                                <label htmlFor="image">Pick Image: </label>
+                                <input type="file" id="image" className="my-2 ms-2" onChange={(e) => setImageValue(e.target.files[0])} />
                             </div>
                             <input type="text" className="mt-2 text-2xl font-semibold" value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
 
