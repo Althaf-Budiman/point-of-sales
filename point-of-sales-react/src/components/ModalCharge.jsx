@@ -27,9 +27,12 @@ export default function ModalCharge({ setIsModalChargeOpen, totalPrice }) {
                     </button>
                 </div>
 
-                <div className="flex gap-1 items-center">
-                    <label htmlFor="customerPayment" className="text-xl">Customer Payment: <span className="ms-5 text-green-600">Rp</span></label>
-                    <input id="customerPayment" type="number" className="text-xl  py-2 text-green-600 font-semibold focus:outline-none" value={customerPayment} onChange={(e) => setCustomerPayment(e.target.value)} />
+                <div className="flex lg:flex-row flex-col lg:gap-1 items-center">
+                    <label htmlFor="customerPayment" className="text-xl">Customer Payment:</label>
+                    <div className="flex items-center gap-2">
+                        <span className="ms-5 text-xl text-green-600">Rp</span>
+                        <input id="customerPayment" type="number" className="text-xl px-1 text-green-600 font-semibold focus:outline-none border" value={customerPayment} onChange={(e) => setCustomerPayment(e.target.value)} />
+                    </div>
                 </div>
 
                 <h2 className="text-xl mb-2">Change Due: <span className="text-green-600">Rp {changeDue.toLocaleString('id-ID')}</span></h2>
