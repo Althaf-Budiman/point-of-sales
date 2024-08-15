@@ -66,7 +66,7 @@ export default function ItemMenu({ id, name, price, image, handleHomeItemClick }
             {
                 isModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center z-40">
-                        <div className="p-4 rounded-lg flex flex-col bg-white text-black z-50 relative">
+                        <div className="p-4 rounded-lg flex flex-col bg-white text-black z-50 relative w-full max-w-lg mx-auto shadow">
 
                             <div className="flex justify-between items-center border-b my-2">
                                 <h2 className="text-2xl font-semibold text-center mb-2">Edit "{name}"</h2>
