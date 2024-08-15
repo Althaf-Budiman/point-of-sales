@@ -70,7 +70,7 @@ export default function Home() {
     })
 
     return (
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col flex-col-reverse lg:flex-row">
             <div className="hidden">
                 <ComponentToPrint selectedItems={selectedItems} totalPrice={totalPrice} ref={billRef} />
             </div>
@@ -82,7 +82,7 @@ export default function Home() {
             </div>
 
             {/* Bill */}
-            <div className="lg:w-[40vw] flex flex-col">
+            <div className="lg:w-[40vw] flex flex-col m-3 lg:m-0">
                 <h2 className="text-4xl text-center font-semibold mt-6">New Customer</h2>
 
                 {/* items bill */}
