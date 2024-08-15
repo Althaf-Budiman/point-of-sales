@@ -12,6 +12,7 @@ export default function Menu() {
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [image, setImage] = useState('')
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         const loadMenus = async () => {
@@ -31,7 +32,11 @@ export default function Menu() {
             await addMenu(name, price, image)
             window.location.reload()
         } catch (error) {
-            console.log(error)
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors)
+            } else {
+                console.log(error)
+            }
         }
     }
 
@@ -67,11 +72,15 @@ export default function Menu() {
                                 <label htmlFor="image">Pick Image: </label>
                                 <input type="file" id="image" className="my-2 ms-2" onChange={(e) => setImage(e.target.files[0])} />
                             </div>
+
                             <input type="text" placeholder="Menu name.." className="text-2xl font-semibold focus:outline-none" value={name} onChange={(e) => setName(e.target.value)} />
+                            {errors.name && <p className="text-red-500">{errors.name[0]}</p>}
+
                             <div className="mt-2 mb-4 flex text-2xl font-semibold text-green-600">
                                 <p className="me-2">Rp</p>
                                 <input type="number" className="focus:outline-none" value={price.toLocaleString('id-ID')} onChange={(e) => setPrice(e.target.value)} />
                             </div>
+                            {errors.price && <p className="text-red-500">{errors.price[0]}</p>}
 
                             <button onClick={handleAddMenu} className="w-full py-2 px-4 mt-2 bg-green-600 rounded-lg text-white block">Add Menu</button>
                         </div>

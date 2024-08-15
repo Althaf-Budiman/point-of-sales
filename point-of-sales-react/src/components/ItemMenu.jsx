@@ -10,13 +10,18 @@ export default function ItemMenu({ id, name, price, image, handleHomeItemClick }
     const [nameValue, setNameValue] = useState(name)
     const [priceValue, setPriceValue] = useState(price)
     const [imageValue, setImageValue] = useState('')
+    const [errors, setErrors] = useState({})
 
     const handleEditMenu = async () => {
         try {
             await editMenu(id, nameValue, priceValue, imageValue)
             window.location.reload()
         } catch (error) {
-            console.log(error)
+            if (error.response && error.response.status === 422) {
+                setErrors(error.response.data.errors)
+            } else {
+                console.log(error)
+            }
         }
     }
 
@@ -91,12 +96,15 @@ export default function ItemMenu({ id, name, price, image, handleHomeItemClick }
                                 <label htmlFor="image">Pick Image: </label>
                                 <input type="file" id="image" className="my-2 ms-2" onChange={(e) => setImageValue(e.target.files[0])} />
                             </div>
+
                             <input type="text" className="mt-2 text-2xl font-semibold" value={nameValue} onChange={(e) => setNameValue(e.target.value)} />
+                            {errors.name && <p className="text-red-500">{errors.name[0]}</p>}
 
                             <div className="mt-2 flex text-2xl font-semibold text-green-600">
                                 <p className="me-2">Rp</p>
                                 <input type="number" value={priceValue} onChange={(e) => setPriceValue(e.target.value)} />
                             </div>
+                            {errors.price && <p className="text-red-500">{errors.price[0]}</p>}
 
                             <div className="justify-end flex gap-3 mt-6">
                                 <button onClick={handleDeleteMenu} className=" w-full py-2 px-4 bg-red-600 rounded-lg text-white">Delete</button>
